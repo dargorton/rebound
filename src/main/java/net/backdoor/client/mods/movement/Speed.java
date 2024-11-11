@@ -28,7 +28,7 @@ public class Speed extends Module {
             double speedMultiplier = 1.0;
 
             if (client.options.forwardKey.isPressed()) {
-                speedMultiplier = 1.5;
+                speedMultiplier = 1.1;
                 movementVec = movementVec.add(lookVec.multiply(speedMultiplier));
             }
             if (client.options.leftKey.isPressed()) {

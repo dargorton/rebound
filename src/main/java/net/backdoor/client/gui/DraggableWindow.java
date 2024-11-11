@@ -149,7 +149,6 @@ public class DraggableWindow extends Screen {
         this.height = totalButtonHeight + headerHeight;
     }
 
-    // Re-added `updateAllButtonPos` method with arguments
     public void updateAllButtonPos(int offset, int index) {
         // Update the positions of buttons relative to the window's current position
         for (int i = 0; i < buttons.size(); i++) {
@@ -161,6 +160,7 @@ public class DraggableWindow extends Screen {
             }
         }
     }
+
 
     public void addSlider(SliderButton slider) {
         this.addDrawableChild(slider);

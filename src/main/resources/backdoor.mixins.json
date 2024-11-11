@@ -5,11 +5,10 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "ClientPlayerEntityMixin",
-    "TitleScreenMixin",
+    "ClientWorldMixin",
     "InGameHudMixin",
-    "ClientWorldMixin"
+    "TitleScreenMixin"
   ],
-  "client": [],
   "injectors": {
     "defaultRequire": 1
   }

@@ -15,7 +15,7 @@ import net.minecraft.client.util.InputUtil;
 
 public class Backdoor implements ClientModInitializer {
 
-    public static final String VERSION = "3.0-nightly-5+1.20.6";
+    public static final String VERSION = "3.0-nightly-5+" + MinecraftClient.getInstance().getGameVersion();
     private KeyBinding keyBinding;
     public Screen currentScreen = MinecraftClient.getInstance().currentScreen;
 
