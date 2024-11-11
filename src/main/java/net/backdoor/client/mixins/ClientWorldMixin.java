@@ -20,7 +20,7 @@ public class ClientWorldMixin {
 
             net.backdoor.client.mods.Module m = ModuleManager.getModule(new AutoCrystal());
             assert m != null;
-            ((AutoCrystal)m).onCrystalAdded(entity);
+            ((AutoCrystal)m).onCrystalAdded((EndCrystalEntity) entity);
         }
     }
 
@@ -34,7 +34,7 @@ public class ClientWorldMixin {
         if (entity.getType() == EntityType.END_CRYSTAL) {
             net.backdoor.client.mods.Module m = ModuleManager.getModule(new AutoCrystal());
             assert m != null;
-            ((AutoCrystal)m).onCrystalRemoved();
+            ((AutoCrystal)m).onCrystalRemoved((EndCrystalEntity) entity);
         }
     }
 }

@@ -4,7 +4,6 @@ import net.backdoor.client.mods.Category;
 import net.backdoor.client.mods.Module;
 import net.backdoor.client.mods.movement.*;
 import net.backdoor.client.mods.pvp.AutoCrystal;
-import net.backdoor.client.mods.pvp.AutoCrystalRework;
 import net.backdoor.client.mods.pvp.AutoTotem;
 import net.backdoor.client.mods.render.ESP;
 import net.backdoor.client.mods.util.Blink;
@@ -27,7 +26,6 @@ public class ModuleManager {
         list.add(new Velocity());
         list.add(new ElytraBoost());
         list.add(new ESP());
-        list.add(new AutoCrystalRework());
         list.add(new EntitySpeed());
         list.add(new Strafe());//until settings implemented; just rawdogging.
         list.add(new FakePlayer());

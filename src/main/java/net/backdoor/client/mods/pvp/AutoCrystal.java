@@ -1,7 +1,5 @@
 package net.backdoor.client.mods.pvp;
 
-
-import net.backdoor.client.Backdoor;
 import net.backdoor.client.devutil.TickDelayHandler;
 import net.backdoor.client.mods.Category;
 import net.fabricmc.api.EnvType;
@@ -19,7 +17,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
-import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -28,37 +25,26 @@ import net.minecraft.util.math.Vec3d;
 import net.backdoor.client.mods.Module;
 import net.backdoor.client.setting.Setting;
 import net.backdoor.client.devutil.BlockUtil;
-import net.backdoor.client.devutil.MathUtil;
 import net.backdoor.client.devutil.RotateUtil;
-import net.minecraft.util.math.Vec3i;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Environment(EnvType.CLIENT)
 public class AutoCrystal extends Module {
 
     private final MinecraftClient client = MinecraftClient.getInstance();
     private final List<LivingEntity> targets = new ArrayList<>();
-
     private final BlockPos.Mutable placingCrystalBlockPos = new BlockPos.Mutable();
-
     private final ArrayList<Entity> placedCrystals = new ArrayList<>();
-
     private boolean canPlace = true;
-
-
-
-
+    private boolean canBreak = true;
 
     public static Setting<Integer> range = new Setting<>("range", "range", 5, null, null, null);
 
-
-
     public AutoCrystal() {
-        super("AutoCrystal", Category.PVP, new ArrayList<>());
+        super("AutoCrystalRework", Category.PVP, new ArrayList<>());
         this.settings.add(range);
         ClientTickEvents.END_CLIENT_TICK.register(this::onTick);
         TickDelayHandler.init();
@@ -74,65 +60,53 @@ public class AutoCrystal extends Module {
             return;
         }
 
-
         if (enabled) {
-
-            if (canPlace || !isEndCrystalAtPos(placingCrystalBlockPos)) {
-                canPlace = false;
-                TickDelayHandler.runAfterTicks(() -> {
-                    BlockPos impliedPlacePos = doPlace(client.player);
-                    if (impliedPlacePos != null) {
-                        placingCrystalBlockPos.set(impliedPlacePos).move(0, 1, 0);
-                    }  /*else {//lets try again
-                        canPlace = true;
-                        // cant place! we're fucked!
-                    }*/
-
-                }, 2);
+            if (canPlace) {
+                handlePlaceAction();
             }
 
-            /*if (canBreak) {
-                canBreak = false;
-                TickDelayHandler.runAfterTicks(() -> {
-                    if (!placedCrystals.isEmpty()) {
-                        for (Entity crystal : placedCrystals) {
-                            if (crystal != null)
-                                doBreak(crystal);
-                        }
-                    }
-                    canBreak = true;
-                    canPlace = true;
-                }, 10);
-            }*/
-                //lets attack now
-
-
+            if (canBreak) {
+                handleBreakAction();
+            }
         } else {
-            canPlace = true;
-            placedCrystals.clear();
+            reset();
         }
     }
 
-    public void onCrystalRemoved() {
+    private void handlePlaceAction() {
+        if (canPlace || !isEndCrystalAtPos(placingCrystalBlockPos)) {
+            canPlace = false;
+
+            // Place the crystal after a small delay
+            assert client.player != null;
+            BlockPos placePos = doPlace(client.player);
+            if (placePos != null) {
+                placingCrystalBlockPos.set(placePos).move(0, 1, 0);
+            }
+
+            canPlace = true; // Allow placement again
+        }
+    }
+
+    private void handleBreakAction() {
         if (!placedCrystals.isEmpty()) {
-            placedCrystals.removeLast();
-        }
-    }
-
-
-    public void onCrystalAdded(Entity crystal) {
-        if (!enabled) return;
-        if (crystal.getBlockPos().equals(placingCrystalBlockPos)) {
-            placedCrystals.add(crystal);
-            for (Entity placedCrystal : placedCrystals) {
-                TickDelayHandler.runAfterTicks(() -> doBreak(placedCrystal), 3);
+            for (Entity crystal : placedCrystals) {
+                if (crystal != null) {
+                    hitCrystal(crystal);
+                }
             }
         }
-        //canPlace = true;
+
+        canBreak = true; // Allow breaking again
     }
 
+    private void reset() {
+        canPlace = true;
+        canBreak = true;
+        placedCrystals.clear();
+    }
 
-    private BlockPos doPlace (PlayerEntity player) {
+    private BlockPos doPlace(PlayerEntity player) {
         ItemStack heldItem = player.getMainHandStack();
         ItemStack offHand = player.getOffHandStack();
         if (heldItem.getItem() != Items.END_CRYSTAL) {
@@ -152,11 +126,13 @@ public class AutoCrystal extends Module {
         }
 
         LivingEntity target = getNearestTarget();
-        BlockPos targetPos = getNearestTarget().getBlockPos();
+        if (target == null) {
+            return null;
+        }
 
+        BlockPos targetPos = target.getBlockPos();
 
-        //we are gonna find lethals first.
-
+        // Find lethal positions
         BlockPos[] adjacentPositions = {
                 targetPos.north(),
                 targetPos.south(),
@@ -170,16 +146,17 @@ public class AutoCrystal extends Module {
             Block block = client.world.getBlockState(pos).getBlock();
             Block blockAbove = client.world.getBlockState(pos.up()).getBlock();
 
-            if (BlockUtil.isBoundingBoxIntersectingEntityType(EntityType.END_CRYSTAL, pos.up())) {continue;} // does it intersect other crystals
+            if (BlockUtil.isBoundingBoxIntersectingEntityType(EntityType.END_CRYSTAL, pos.up())) {
+                continue;
+            }
 
-            // Check if the block is obsidian or bedrock, and if the block above is air
             if ((block == Blocks.OBSIDIAN || block == Blocks.BEDROCK) && blockAbove == Blocks.AIR) {
                 closestPos = pos;
             }
         }
 
-
-        if (closestPos == null) { // then no lethal crystal spot
+        // If no lethal crystal spot was found, check nearby positions
+        if (closestPos == null) {
             for (int x = -5; x <= 5; x++) {
                 for (int y = -5; y <= 5; y++) {
                     for (int z = -5; z <= 5; z++) {
@@ -188,22 +165,17 @@ public class AutoCrystal extends Module {
                         Block block = client.world.getBlockState(blockPos).getBlock();
 
                         if (block == Blocks.OBSIDIAN || block == Blocks.BEDROCK) {
-
-
                             blockPos.set(blockPos.getX(), blockPos.getY() + 1, blockPos.getZ());
                             if (!client.world.getBlockState(blockPos).isAir()) continue;
                             if (BlockUtil.isBoundingBoxIntersectingBlock(target, blockPos)) continue;
 
-                            blockPos.set(blockPos.getX(), blockPos.getY() - 1, blockPos.getZ());// uhh go back
+                            blockPos.set(blockPos.getX(), blockPos.getY() - 1, blockPos.getZ());
 
-                            if (BlockUtil.isBoundingBoxIntersectingEntityType(EntityType.END_CRYSTAL, blockPos)) {continue;} // does it intersect other crystals
-
-
+                            if (BlockUtil.isBoundingBoxIntersectingEntityType(EntityType.END_CRYSTAL, blockPos)) continue;
 
                             double distance = targetPos.getSquaredDistance(blockPos);
                             double range = player.getBlockPos().up().getSquaredDistance(blockPos);
                             if (distance < closestDistance && range < 5.0) {
-
                                 closestDistance = distance;
                                 closestPos = blockPos.toImmutable();
                             }
@@ -225,39 +197,83 @@ public class AutoCrystal extends Module {
 
             Objects.requireNonNull(client.getNetworkHandler()).sendPacket(new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, blockHitResult, 0)); // place
 
-            client.getNetworkHandler().sendPacket(new HandSwingC2SPacket(Hand.MAIN_HAND));// swing
+            client.getNetworkHandler().sendPacket(new HandSwingC2SPacket(Hand.MAIN_HAND)); // swing
 
             assert client.player != null;
             client.player.swingHand(Hand.MAIN_HAND);
 
-
             placedPos = closestPos;
+
+            // Find the closest crystal to hit
+            Entity closestCrystal = findClosestCrystalToPlayer(player);
+            if (closestCrystal != null) {
+                hitCrystal(closestCrystal); // Attack the crystal
+            }
         }
         return placedPos;
     }
 
-    private void doBreak (Entity crystal) {
-        if (crystal.getType() == EntityType.END_CRYSTAL) {
-            assert Backdoor.mc.player != null;
-            double range = Backdoor.mc.player.getBlockPos().up().getSquaredDistance(crystal.getBlockPos());
-            System.out.println(range);
-            if (range < 5.0) return;
-            //RotateUtil.rotatePlayerToFace(placedPos, false);
-            assert client.player != null;
-            Objects.requireNonNull(client.getNetworkHandler()).sendPacket(PlayerInteractEntityC2SPacket.attack(crystal, client.player.isSneaking()));
-            client.getNetworkHandler().sendPacket(new HandSwingC2SPacket(Hand.MAIN_HAND));
-            client.player.swingHand(Hand.MAIN_HAND);
-            if (canPlace) {
-                placedCrystals.remove(crystal);
+    // New method to find the closest crystal
+    private Entity findClosestCrystalToPlayer(PlayerEntity player) {
+        double closestDistance = Double.MAX_VALUE;
+        Entity closestCrystal = null;
+
+        assert client.world != null;
+        for (Entity entity : client.world.getEntities()) {
+            if (entity instanceof EndCrystalEntity) {
+                double distance = player.squaredDistanceTo(entity);
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestCrystal = entity;
+                }
             }
-            //canPlace = true;
         }
+
+        return closestCrystal;
+    }
+
+    private void hitCrystal(Entity crystal) {
+        if (crystal.getType() == EntityType.END_CRYSTAL) {
+            try {
+                assert client.interactionManager != null;
+                client.interactionManager.attackEntity(client.player, crystal);
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+    private void findTargets() {
+        targets.clear();
+        assert client.world != null;
+        for (Entity entity : client.world.getEntities()) {
+            if (entity instanceof LivingEntity livingEntity) {
+                if (livingEntity != client.player) {
+                    targets.add(livingEntity);
+                }
+            }
+        }
+    }
+
+    private LivingEntity getNearestTarget() {
+        double closestDistance = Double.MAX_VALUE;
+        LivingEntity closestTarget = null;
+
+        for (LivingEntity target : targets) {
+            assert client.player != null;
+            double distance = client.player.squaredDistanceTo(target);
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestTarget = target;
+            }
+        }
+
+        return closestTarget;
     }
 
     private boolean isEndCrystalAtPos(BlockPos pos) {
         assert client.world != null;
         for (Entity entity : client.world.getEntities()) {
-            if (entity.getType() == EntityType.END_CRYSTAL) {
+            if (entity instanceof EndCrystalEntity) {
                 if (entity.getBlockPos().equals(pos)) {
                     return true;
                 }
@@ -266,70 +282,16 @@ public class AutoCrystal extends Module {
         return false;
     }
 
-    private void placeSpecificCrystal (BlockPos pos) {
-        RotateUtil.rotatePlayerToFace(pos, false);
-
-        BlockHitResult blockHitResult = new BlockHitResult(
-                new Vec3d(pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5),
-                Direction.UP,
-                pos,
-                false
-        );
-
-        Objects.requireNonNull(client.getNetworkHandler()).sendPacket(new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, blockHitResult, 0)); // place
-
-        client.getNetworkHandler().sendPacket(new HandSwingC2SPacket(Hand.MAIN_HAND));// swing
-
-        assert client.player != null;
-        client.player.swingHand(Hand.MAIN_HAND);
-
-
+    public void onCrystalAdded(EndCrystalEntity crystal) {
+        // This method is called when a new crystal is placed.
+        placedCrystals.add(crystal);
+        System.out.println("Crystal added at: " + crystal.getBlockPos());
     }
 
-
-
-    private void findTargets() {
-
-        targets.clear();
-
-        // Living Entities
-        assert client.world != null;
-        for (Entity entity : client.world.getEntities()) {
-            // Ignore non-living
-            if (!(entity instanceof LivingEntity livingEntity)) continue;
-
-            // Player
-            if (livingEntity instanceof PlayerEntity enemy) {
-                if (enemy.getAbilities().creativeMode || livingEntity == client.player) continue;
-                if (!enemy.isAlive()) continue;
-
-            }
-
-            // Animals, water animals, monsters, bats, misc
-            //if (!(entities.get().contains(livingEntity.getType()))) continue;
-            if (!(livingEntity.getType().equals(EntityType.PLAYER))) continue; // is a player
-
-            // Close enough to damage                           target range
-            if (livingEntity.squaredDistanceTo(client.player) > 8 * 8) continue;
-
-            targets.add(livingEntity);
-        }
-    }
-
-    private LivingEntity getNearestTarget() {
-        LivingEntity nearestTarget = null;
-        double nearestDistance = Double.MAX_VALUE;
-
-        for (LivingEntity target : targets) {
-            double distance = MathUtil.squaredDistanceTo(target);
-
-            if (distance < nearestDistance) {
-                nearestTarget = target;
-                nearestDistance = distance;
-            }
-        }
-
-        return nearestTarget;
+    public void onCrystalRemoved(EndCrystalEntity crystal) {
+        // This method is called when a crystal is removed (e.g., destroyed).
+        placedCrystals.remove(crystal);
+        System.out.println("Crystal removed from: " + crystal.getBlockPos());
     }
 
     @Override
