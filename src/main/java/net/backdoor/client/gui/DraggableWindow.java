@@ -21,6 +21,8 @@ public class DraggableWindow extends Screen {
     private int dragX, dragY;
     public final List<ButtonWidget> buttons = new ArrayList<>();
 
+    public final List<SliderButton> sliders = new ArrayList<>();
+
     public final Category category;
 
     private boolean isInit = false;
@@ -71,6 +73,8 @@ public class DraggableWindow extends Screen {
             addDrawableChild(button);
         }
 
+
+
         isInit = true;
     }
 
@@ -94,6 +98,10 @@ public class DraggableWindow extends Screen {
         // Render buttons
         for (ButtonWidget button : buttons) {
             button.render(context, mouseX, mouseY, delta);
+        }
+
+        for (SliderButton slider : sliders) {
+            slider.render(context, mouseX, mouseY, delta);
         }
     }
 
@@ -152,6 +160,11 @@ public class DraggableWindow extends Screen {
                 button.setWidth(width); // Button width takes up the full window width
             }
         }
+    }
+
+    public void addSlider(SliderButton slider) {
+        this.addDrawableChild(slider);
+        sliders.add(slider);
     }
 
     // Method to check if the mouse is within the bounds of the window

@@ -83,6 +83,8 @@ public class ModuleButton extends ButtonWidget {
         if (!settingsOn) {
             for (int i = 0; i < settings.size(); i++) {
                 categoryWindow.updateAllButtonPos(15, categoryWindow.buttons.indexOf(this) + 1);
+                //SliderButton button = new SliderButton(this.getX(), this.getY() + (i*15), this.width, this.height, 1, 10);
+                //categoryWindow.addSlider(button);
                 //maybe this works
             }
         } else {
