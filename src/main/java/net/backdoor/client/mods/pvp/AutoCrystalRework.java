@@ -1,6 +1,5 @@
 package net.backdoor.client.mods.pvp;
 
-import net.backdoor.client.Backdoor;
 import net.backdoor.client.devutil.TickDelayHandler;
 import net.backdoor.client.mods.Category;
 import net.fabricmc.api.EnvType;
@@ -18,17 +17,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
-import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
 import net.backdoor.client.mods.Module;
 import net.backdoor.client.setting.Setting;
 import net.backdoor.client.devutil.BlockUtil;
 import net.backdoor.client.devutil.RotateUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -39,10 +37,9 @@ public class AutoCrystalRework extends Module {
     private final MinecraftClient client = MinecraftClient.getInstance();
     private final List<LivingEntity> targets = new ArrayList<>();
     private final BlockPos.Mutable placingCrystalBlockPos = new BlockPos.Mutable();
+    private final ArrayList<Entity> placedCrystals = new ArrayList<>();
     private boolean canPlace = true;
     private boolean canBreak = true;
-
-    private BlockPos lethalPlacementPos = null;  // Store the lethal placement position
 
     public static Setting<Integer> range = new Setting<>("range", "range", 5, null, null, null);
 
@@ -59,8 +56,7 @@ public class AutoCrystalRework extends Module {
             return;
         }
 
-        if (client.player.getMainHandStack().getItem() != Items.END_CRYSTAL ||
-            client.player.getOffHandStack().getItem() != Items.END_CRYSTAL) {
+        if (client.player.getMainHandStack().getItem() != Items.END_CRYSTAL) {
             return;
         }
 
@@ -78,40 +74,39 @@ public class AutoCrystalRework extends Module {
     }
 
     private void handlePlaceAction() {
-        if (canPlace && lethalPlacementPos != null) {
+        if (canPlace || !isEndCrystalAtPos(placingCrystalBlockPos)) {
             canPlace = false;
 
-            // Repeatedly place the crystal on the same lethal position
-            BlockPos placedPos = doPlace(client.player, lethalPlacementPos);
-            if (placedPos != null) {
-                lethalPlacementPos = placedPos;  // Keep using this spot until conditions change
+            // Place the crystal after a small delay
+            assert client.player != null;
+            BlockPos placePos = doPlace(client.player);
+            if (placePos != null) {
+                placingCrystalBlockPos.set(placePos).move(0, 1, 0);
             }
 
-            canPlace = true;
+            canPlace = true; // Allow placement again
         }
     }
 
     private void handleBreakAction() {
-        if (!canBreak) return;
-
-        if (lethalPlacementPos != null) {
-            // Look for any placed crystal on the lethal spot
-            Entity crystal = findPlacedCrystalAt(lethalPlacementPos);
-            if (crystal != null) {
-                doBreak(crystal);  // Break the crystal
+        if (!placedCrystals.isEmpty()) {
+            for (Entity crystal : placedCrystals) {
+                if (crystal != null) {
+                    hitCrystal(crystal);
+                }
             }
         }
 
-        canBreak = true;
+        canBreak = true; // Allow breaking again
     }
 
     private void reset() {
         canPlace = true;
         canBreak = true;
-        lethalPlacementPos = null;  // Reset lethal placement position
+        placedCrystals.clear();
     }
 
-    private BlockPos doPlace(PlayerEntity player, BlockPos lethalSpot) {
+    private BlockPos doPlace(PlayerEntity player) {
         ItemStack heldItem = player.getMainHandStack();
         ItemStack offHand = player.getOffHandStack();
         if (heldItem.getItem() != Items.END_CRYSTAL) {
@@ -119,100 +114,25 @@ public class AutoCrystalRework extends Module {
         }
 
         BlockPos.Mutable blockPos = new BlockPos.Mutable();
+        BlockPos closestPos = null;
         BlockPos placedPos = null;
-
-        // Place the crystal repeatedly on the lethal spot
-        assert client.world != null;
-        Block block = client.world.getBlockState(lethalSpot).getBlock();
-        Block blockAbove = client.world.getBlockState(lethalSpot.up()).getBlock();
-
-        // Check if the lethal spot is still valid for placement
-        if ((block == Blocks.OBSIDIAN || block == Blocks.BEDROCK) && blockAbove == Blocks.AIR) {
-            RotateUtil.rotatePlayerToFace(lethalSpot, false);
-
-            BlockHitResult blockHitResult = new BlockHitResult(
-                    new Vec3d(lethalSpot.getX() + 0.5, lethalSpot.getY() + 1.0, lethalSpot.getZ() + 0.5),
-                    Direction.UP,
-                    lethalSpot,
-                    false
-            );
-
-            Objects.requireNonNull(client.getNetworkHandler()).sendPacket(new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, blockHitResult, 0)); // place
-            client.getNetworkHandler().sendPacket(new HandSwingC2SPacket(Hand.MAIN_HAND)); // swing
-
-            assert client.player != null;
-            client.player.swingHand(Hand.MAIN_HAND);
-
-            placedPos = lethalSpot;
-        }
-        return placedPos;
-    }
-
-    // Find an EndCrystalEntity that has been placed at the lethal spot
-    private Entity findPlacedCrystalAt(BlockPos lethalSpot) {
-        for (Entity entity : client.world.getEntities()) {
-            if (entity instanceof EndCrystalEntity) {
-                if (entity.getBlockPos().equals(lethalSpot)) {
-                    return entity;
-                }
-            }
-        }
-        return null;
-    }
-
-    private void doBreak(Entity crystal) {
-        if (crystal.getType() == EntityType.END_CRYSTAL) {
-            try {
-                assert client.interactionManager != null;
-                client.interactionManager.attackEntity(client.player, crystal);
-            } catch (Exception ignored) {
-            }
-        }
-    }
-
-    private void findTargets() {
-        targets.clear();
-        for (Entity entity : client.world.getEntities()) {
-            if (entity instanceof LivingEntity) {
-                LivingEntity livingEntity = (LivingEntity) entity;
-                if (livingEntity != client.player) {
-                    targets.add(livingEntity);
-                }
-            }
-        }
-    }
-
-    private LivingEntity getNearestTarget() {
         double closestDistance = Double.MAX_VALUE;
-        LivingEntity closestTarget = null;
 
-        for (LivingEntity target : targets) {
-            double distance = client.player.squaredDistanceTo(target);
-            if (distance < closestDistance) {
-                closestDistance = distance;
-                closestTarget = target;
-            }
+        findTargets();
+
+        if (targets.isEmpty()) {
+            placedCrystals.clear();
+            return null;
         }
 
-        return closestTarget;
-    }
-
-    private boolean isEndCrystalAtPos(BlockPos pos) {
-        for (Entity entity : client.world.getEntities()) {
-            if (entity instanceof EndCrystalEntity) {
-                if (entity.getBlockPos().equals(pos)) {
-                    return true;
-                }
-            }
+        LivingEntity target = getNearestTarget();
+        if (target == null) {
+            return null;
         }
-        return false;
-    }
 
-    // Main logic for deciding where to place the lethal crystal spot
-    private void setLethalSpot(LivingEntity target) {
         BlockPos targetPos = target.getBlockPos();
 
-        // Example logic for determining the lethal spot:
+        // Find lethal positions
         BlockPos[] adjacentPositions = {
                 targetPos.north(),
                 targetPos.south(),
@@ -226,20 +146,140 @@ public class AutoCrystalRework extends Module {
             Block block = client.world.getBlockState(pos).getBlock();
             Block blockAbove = client.world.getBlockState(pos.up()).getBlock();
 
+            if (BlockUtil.isBoundingBoxIntersectingEntityType(EntityType.END_CRYSTAL, pos.up())) {
+                continue;
+            }
+
             if ((block == Blocks.OBSIDIAN || block == Blocks.BEDROCK) && blockAbove == Blocks.AIR) {
-                lethalPlacementPos = pos;  // Set the lethal spot
-                break;
+                closestPos = pos;
+            }
+        }
+
+        // If no lethal crystal spot was found, check nearby positions
+        if (closestPos == null) {
+            for (int x = -5; x <= 5; x++) {
+                for (int y = -5; y <= 5; y++) {
+                    for (int z = -5; z <= 5; z++) {
+                        blockPos.set(targetPos.getX() + x, targetPos.getY() + y, targetPos.getZ() + z);
+                        assert client.world != null;
+                        Block block = client.world.getBlockState(blockPos).getBlock();
+
+                        if (block == Blocks.OBSIDIAN || block == Blocks.BEDROCK) {
+                            blockPos.set(blockPos.getX(), blockPos.getY() + 1, blockPos.getZ());
+                            if (!client.world.getBlockState(blockPos).isAir()) continue;
+                            if (BlockUtil.isBoundingBoxIntersectingBlock(target, blockPos)) continue;
+
+                            blockPos.set(blockPos.getX(), blockPos.getY() - 1, blockPos.getZ());
+
+                            if (BlockUtil.isBoundingBoxIntersectingEntityType(EntityType.END_CRYSTAL, blockPos)) continue;
+
+                            double distance = targetPos.getSquaredDistance(blockPos);
+                            double range = player.getBlockPos().up().getSquaredDistance(blockPos);
+                            if (distance < closestDistance && range < 5.0) {
+                                closestDistance = distance;
+                                closestPos = blockPos.toImmutable();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (closestPos != null) {
+            RotateUtil.rotatePlayerToFace(closestPos, false);
+
+            BlockHitResult blockHitResult = new BlockHitResult(
+                    new Vec3d(closestPos.getX() + 0.5, closestPos.getY() + 1.0, closestPos.getZ() + 0.5),
+                    Direction.UP,
+                    closestPos,
+                    false
+            );
+
+            Objects.requireNonNull(client.getNetworkHandler()).sendPacket(new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, blockHitResult, 0)); // place
+
+            client.getNetworkHandler().sendPacket(new HandSwingC2SPacket(Hand.MAIN_HAND)); // swing
+
+            assert client.player != null;
+            client.player.swingHand(Hand.MAIN_HAND);
+
+            placedPos = closestPos;
+
+            // Find the closest crystal to hit
+            Entity closestCrystal = findClosestCrystalToPlayer(player);
+            if (closestCrystal != null) {
+                hitCrystal(closestCrystal); // Attack the crystal
+            }
+        }
+        return placedPos;
+    }
+
+    // New method to find the closest crystal
+    private Entity findClosestCrystalToPlayer(PlayerEntity player) {
+        double closestDistance = Double.MAX_VALUE;
+        Entity closestCrystal = null;
+
+        assert client.world != null;
+        for (Entity entity : client.world.getEntities()) {
+            if (entity instanceof EndCrystalEntity) {
+                double distance = player.squaredDistanceTo(entity);
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestCrystal = entity;
+                }
+            }
+        }
+
+        return closestCrystal;
+    }
+
+    private void hitCrystal(Entity crystal) {
+        if (crystal.getType() == EntityType.END_CRYSTAL) {
+            try {
+                assert client.interactionManager != null;
+                client.interactionManager.attackEntity(client.player, crystal);
+            } catch (Exception ignored) {
             }
         }
     }
 
-    private void findAndSetTargetLethalSpot() {
-        if (client.player != null) {
-            LivingEntity nearestTarget = getNearestTarget();
-            if (nearestTarget != null) {
-                setLethalSpot(nearestTarget);  // Set lethal spot based on nearest target
+    private void findTargets() {
+        targets.clear();
+        assert client.world != null;
+        for (Entity entity : client.world.getEntities()) {
+            if (entity instanceof LivingEntity livingEntity) {
+                if (livingEntity != client.player) {
+                    targets.add(livingEntity);
+                }
             }
         }
+    }
+
+    private LivingEntity getNearestTarget() {
+        double closestDistance = Double.MAX_VALUE;
+        LivingEntity closestTarget = null;
+
+        for (LivingEntity target : targets) {
+            assert client.player != null;
+            double distance = client.player.squaredDistanceTo(target);
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestTarget = target;
+            }
+        }
+
+        return closestTarget;
+    }
+
+    private boolean isEndCrystalAtPos(BlockPos pos) {
+        assert client.world != null;
+        for (Entity entity : client.world.getEntities()) {
+            if (entity instanceof EndCrystalEntity) {
+                if (entity.getBlockPos().equals(pos)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
