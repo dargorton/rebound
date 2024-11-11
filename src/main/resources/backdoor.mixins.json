@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.backdoor.client.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "ClientPlayerEntityMixin",
+    "TitleScreenMixin",
+    "InGameHudMixin",
+    "ClientWorldMixin"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

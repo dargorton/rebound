@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "backdoor",
+  "version": "v3.0-nightly-5",
+  "name": "Backdoor",
+  "description": "Backdoor Utility Client",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "net.backdoor.client.Backdoor"
+    ]
+  },
+  "mixins": [
+    "backdoor.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

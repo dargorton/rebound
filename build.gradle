@@ -1,0 +1,47 @@
+plugins {
+    id 'fabric-loom' version '1.7-SNAPSHOT'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Update Minecraft version to 1.21.2
+    minecraft "com.mojang:minecraft:1.21"
+    // Update mappings for 1.21.2
+    mappings "net.fabricmc:yarn:1.21+build.1:v2"
+    // Use the correct loader version for 1.21.2
+    modImplementation "net.fabricmc:fabric-loader:0.16.9"
+
+    // Update Fabric API to a version compatible with Minecraft 1.21.2
+    modImplementation "net.fabricmc.fabric-api:fabric-api:0.102.0+1.21"
+
+
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "loader_version", project.loader_version
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+                "minecraft_version": project.minecraft_version,
+                "loader_version": project.loader_version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    it.options.release.set(21) // For Java 21 compatibility
+}
