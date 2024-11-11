@@ -5,17 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7caef8e-ceec-484f-bb2e-1d9edbd8748b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/CustomSlider.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/SliderButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/backdoor-client.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/backdoor-client.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/net.backdoor.backdoor-client.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/net.backdoor.backdoor-client.main.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/net.backdoor.backdoor-client.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/net.backdoor.backdoor-client.test.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/Minecraft_Client.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/Minecraft_Client.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/Minecraft_Server.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/Minecraft_Server.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/devutil/FakePlayerEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mods/movement/ElytraBounce.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mods/util/Blink.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mods/util/FakePlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/Backdoor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/Backdoor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/DraggableWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/DraggableWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/ModuleButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/ModuleButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/manager/ModuleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/manager/ModuleManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mods/movement/Speed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mods/movement/Speed.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mods/movement/Strafe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mods/movement/Strafe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mods/pvp/AutoCrystalRework.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mods/pvp/AutoCrystalRework.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/backdoor.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/backdoor.mixins.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +40,17 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="backdoor-client" type="f1a62948:ProjectNode" />
               </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="backdoor-client" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="backdoor-client" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
             </expand>
             <select />
           </tree_state>
@@ -57,15 +68,30 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "notrogr4d"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/notrogr4d/backdoor-client.git",
+    "accountId": "bb80de04-5c62-4025-9a14-415be345c55f"
+  }
+}]]></component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2ohZi3NTVMWhGEzYbnwLZnmrpGg" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -135,5 +161,16 @@
       <updated>1731323893819</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
