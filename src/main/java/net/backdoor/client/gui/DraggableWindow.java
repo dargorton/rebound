@@ -81,9 +81,9 @@ public class DraggableWindow extends Screen {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         // Header and background color
-        int borderColor = new Color(31, 31, 31).getRGB();
-        int headerColor = new Color(94, 58, 163).getRGB();
-
+        int borderColor = new Color(17, 17, 17, 51).getRGB();
+        int headerColor = new Color(168, 19, 19, 204).getRGB();
+        int headerColor2 = new Color(168, 19, 19, 204).getRGB();
         // Draw window background and border
         context.fill(x, y, x + width, y + height, 0x80000000);  // semi-transparent dark background
         context.drawBorder(x, y, this.width + 1, this.height + 1, borderColor); // with border

@@ -32,18 +32,18 @@ public class ModuleButton extends ButtonWidget {
         int startColor;
         int endColor;
         if (isHovered()) {
-            startColor = new Color(58, 6, 104).getRGB();
-            endColor = new Color(58, 6, 104).getRGB();
+            startColor = new Color(28, 28, 30).getRGB();
+            endColor = new Color(28, 28, 30).getRGB();
         } else if (thisModule.enabled) {
 
-            startColor = new Color(73, 8, 131).getRGB();
-            endColor = new Color(73, 8, 131).getRGB();
+            startColor = new Color(154, 14, 14, 115).getRGB(); // semi transparent red
+            endColor  = new Color(154, 14, 14, 115).getRGB();
         } else {
-            startColor = new Color(46, 7, 81).getRGB();
-            endColor = new Color(46, 7, 81).getRGB();
+            startColor =0x8000000;
+            endColor = 0x80000000;
         }
 
-        int borderColor = new Color(25, 6, 41).getRGB();
+        int borderColor = new Color(33, 33, 33).getRGB();
 
         context.drawTextWithShadow(client.textRenderer, getMessage(), getX() + 5, getY() + 2, Colors.WHITE);
         context.fillGradient(getX(), getY(), getX() + this.width, getY() + this.height, startColor, endColor);

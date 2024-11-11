@@ -44,7 +44,7 @@ public class AutoCrystal extends Module {
     public static Setting<Integer> range = new Setting<>("range", "range", 5, null, null, null);
 
     public AutoCrystal() {
-        super("AutoCrystalRework", Category.PVP, new ArrayList<>());
+        super("AutoCrystal", Category.PVP, new ArrayList<>());
         this.settings.add(range);
         ClientTickEvents.END_CLIENT_TICK.register(this::onTick);
         TickDelayHandler.init();
