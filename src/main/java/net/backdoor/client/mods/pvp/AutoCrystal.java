@@ -246,9 +246,9 @@ public class AutoCrystal extends Module {
         targets.clear();
         assert client.world != null;
         for (Entity entity : client.world.getEntities()) {
-            if (entity instanceof LivingEntity livingEntity) {
-                if (livingEntity != client.player) {
-                    targets.add(livingEntity);
+            if (entity.getType() == EntityType.PLAYER || entity.getType() == EntityType.WITHER ) {
+                if (entity != client.player) {
+                    targets.add((LivingEntity) entity);
                 }
             }
         }

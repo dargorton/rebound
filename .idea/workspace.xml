@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f7caef8e-ceec-484f-bb2e-1d9edbd8748b" name="Changes" comment="AutoCrystalRework Implemented.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mods/pvp/AutoCrystalRework.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mods/pvp/AutoCrystalRework.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mods/pvp/AutoCrystal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mods/pvp/AutoCrystal.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,17 +31,6 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="backdoor-client" type="f1a62948:ProjectNode" />
               </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="backdoor-client" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="backdoor-client" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
-              </path>
             </expand>
             <select />
           </tree_state>
@@ -59,18 +48,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "notrogr4d"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;notrogr4d&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/notrogr4d/backdoor-client.git",
-    "accountId": "bb80de04-5c62-4025-9a14-415be345c55f"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/notrogr4d/backdoor-client.git&quot;,
+    &quot;accountId&quot;: &quot;bb80de04-5c62-4025-9a14-415be345c55f&quot;
   }
-}]]></component>
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
