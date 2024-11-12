@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f7caef8e-ceec-484f-bb2e-1d9edbd8748b" name="Changes" comment="AutoCrystalRework Implemented.">
+    <list default="true" id="f7caef8e-ceec-484f-bb2e-1d9edbd8748b" name="Changes" comment="AutoCrystal targetting improved to not target items and others">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mods/pvp/AutoCrystal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mods/pvp/AutoCrystal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/DraggableWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/DraggableWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/ModuleButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/ModuleButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/SliderButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/SliderButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/manager/ModuleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/manager/ModuleManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,7 +159,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731353150875</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="AutoCrystal targetting improved to not target items and others">
+      <option name="closed" value="true" />
+      <created>1731359743283</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1731359743283</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -172,6 +183,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="AutoCrystalRework Implemented." />
-    <option name="LAST_COMMIT_MESSAGE" value="AutoCrystalRework Implemented." />
+    <MESSAGE value="AutoCrystal targetting improved to not target items and others" />
+    <option name="LAST_COMMIT_MESSAGE" value="AutoCrystal targetting improved to not target items and others" />
   </component>
 </project>

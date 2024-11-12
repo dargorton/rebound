@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 public class ModuleButton extends ButtonWidget {
     private final MinecraftClient client = MinecraftClient.getInstance();
-    private Module thisModule;
-    private boolean settingsOn = false;
+    public Module thisModule;
+    public boolean settingsOn = false;
     protected ModuleButton(int x, int y, int width, int height, Text message, net.backdoor.client.mods.Module selModule, PressAction onPress) {
         super(x, y, width, height, message, onPress, null);
         thisModule = selModule;
@@ -39,7 +39,7 @@ public class ModuleButton extends ButtonWidget {
             startColor = new Color(154, 14, 14, 115).getRGB(); // semi transparent red
             endColor  = new Color(154, 14, 14, 115).getRGB();
         } else {
-            startColor =0x8000000;
+            startColor = 0x8000000;
             endColor = 0x80000000;
         }
 
@@ -82,13 +82,17 @@ public class ModuleButton extends ButtonWidget {
 
         if (!settingsOn) {
             for (int i = 0; i < settings.size(); i++) {
-                categoryWindow.updateAllButtonPos(15, categoryWindow.buttons.indexOf(this) + 1);
-                //SliderButton button = new SliderButton(this.getX(), this.getY() + (i*15), this.width, this.height, 1, 10);
-                //categoryWindow.addSlider(button);
+                //categoryWindow.updateAllButtonPos(15, categoryWindow.buttons.indexOf(this) + 1);
+                categoryWindow.updateAllButtonPos();
+                SliderButton button = new SliderButton(this.getX(), this.getY() + (i*15) + 15, this.width, this.height, 1, 10);
+                categoryWindow.addSlider(button);
+                categoryWindow.updateWindowHeight();
                 //maybe this works
             }
         } else {
-            categoryWindow.updateAllButtonPos(0,0);
+            categoryWindow.clearSliders();
+            categoryWindow.updateAllButtonPos();
+            categoryWindow.updateWindowHeight();
         }
         settingsOn = !settingsOn;
     }

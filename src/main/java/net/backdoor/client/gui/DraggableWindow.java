@@ -19,7 +19,7 @@ public class DraggableWindow extends Screen {
     private int x, y, width, height;
     private boolean isDragging;
     private int dragX, dragY;
-    public final List<ButtonWidget> buttons = new ArrayList<>();
+    public final List<ModuleButton> buttons = new ArrayList<>();
 
     public final List<SliderButton> sliders = new ArrayList<>();
 
@@ -42,12 +42,12 @@ public class DraggableWindow extends Screen {
         if (isInit) return;
 
         // List to hold buttons
-        List<ButtonWidget> moduleButtons = new ArrayList<>();
+        List<ModuleButton> moduleButtons = new ArrayList<>();
 
         // Loop through the modules in the given category and create buttons
         for (int i = 0; i < ModuleManager.getModulesFromCategory(this.category).size(); i++) {
             int finalI = i;
-            ButtonWidget button = new ModuleButton(
+            ModuleButton button = new ModuleButton(
                     x, // x position (no padding)
                     y + 20 + (i * 15), // y position (calculated dynamically)
                     width, // full width of the window
@@ -81,7 +81,7 @@ public class DraggableWindow extends Screen {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         // Header and background color
-        int borderColor = new Color(17, 17, 17, 51).getRGB();
+        int borderColor = new Color(33, 33, 33).getRGB();
         int headerColor = new Color(168, 19, 19, 204).getRGB();
         int headerColor2 = new Color(168, 19, 19, 204).getRGB();
         // Draw window background and border
@@ -131,17 +131,24 @@ public class DraggableWindow extends Screen {
         if (isDragging) {
             x = (int) mouseX - dragX;
             y = (int) mouseY - dragY;
-            updateAllButtonPos(0, 0); // Update button positions
+            for (int i = 0; i < buttons.size(); i++) {
+                updateAllButtonPos();
+                /*if (buttons.get(i).settingsOn) {
+                    updateAllButtonPos(0, this.buttons.indexOf(buttons.get(i)) + 1); // Update button positions based on settings
+                } else {
+                    updateAllButtonPos(0, 0);
+                }*/
+            }
             return true;
         }
         return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
     }
 
-    private void updateWindowHeight() {
+    public void updateWindowHeight() {
         // Calculate the total height of the window based on the number of buttons
         int buttonHeight = 15; // button height but you probably want to actually check the font height
         int verticalSpacing = 0; // no extra vertical spacing between buttons
-        int totalButtonHeight = buttons.size() * buttonHeight; // total height without extra spacing
+        int totalButtonHeight = (buttons.size() + sliders.size()) * buttonHeight; // total height without extra spacing with settings and stuff
 
         int headerHeight = 20; // height of the header
 
@@ -149,15 +156,34 @@ public class DraggableWindow extends Screen {
         this.height = totalButtonHeight + headerHeight;
     }
 
-    public void updateAllButtonPos(int offset, int index) {
+    public void updateAllButtonPos() {
         // Update the positions of buttons relative to the window's current position
-        for (int i = 0; i < buttons.size(); i++) {
-            if (i >= index) {
-                ButtonWidget button = buttons.get(i);
+        for (int index = 0; index < buttons.size(); index++) {
+            int numSettings = buttons.get(index).thisModule.settings.size();
+
+            if (buttons.get(index).settingsOn) {
+                // Remove the condition that skips when index + 1 == buttons.size()
+                for (int n = index + 1; n < buttons.size(); n++) {
+                    System.out.println("doooooooooo it");
+                    ButtonWidget button = buttons.get(n);
+                    button.setX(x);  // Align X to the window's left edge
+                    button.setY(y + 20 + ((numSettings + n) * 15));  // Adjust Y position dynamically with offset
+                    button.setWidth(width); // Button width takes up the full window width
+                }
+            } else {
+                ButtonWidget button = buttons.get(index);
                 button.setX(x);  // Align X to the window's left edge
-                button.setY(y + 20 + (i * 15) + offset);  // Adjust Y position dynamically with offset
+                button.setY(y + 20 + (index * 15));  // Adjust Y position dynamically with offset
                 button.setWidth(width); // Button width takes up the full window width
             }
+        }
+
+        for (int i = 0; i < sliders.size(); i++) {
+            SliderButton button = sliders.get(i);
+            button.setX(x);  // Align X to the window's left edge
+                                // relative position of button
+            button.setY((button.getY() - y));  // Adjust Y position dynamically with offset
+            button.setWidth(width); // Button width takes up the full window width
         }
     }
 
@@ -165,6 +191,13 @@ public class DraggableWindow extends Screen {
     public void addSlider(SliderButton slider) {
         this.addDrawableChild(slider);
         sliders.add(slider);
+    }
+
+    public void clearSliders() {
+        for (SliderButton slider: sliders) {
+            this.remove(slider);
+        }
+        sliders.clear();
     }
 
     // Method to check if the mouse is within the bounds of the window
