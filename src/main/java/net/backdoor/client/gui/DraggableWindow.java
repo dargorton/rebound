@@ -157,24 +157,24 @@ public class DraggableWindow extends Screen {
     }
 
     public void updateAllButtonPos() {
-        // Update the positions of buttons relative to the window's current position
-        for (int index = 0; index < buttons.size(); index++) {
-            int numSettings = buttons.get(index).thisModule.settings.size();
+        int currentY = y + 20;  // Starting Y position
 
-            if (buttons.get(index).settingsOn) {
-                // Remove the condition that skips when index + 1 == buttons.size()
-                for (int n = index + 1; n < buttons.size(); n++) {
-                    System.out.println("doooooooooo it");
-                    ButtonWidget button = buttons.get(n);
-                    button.setX(x);  // Align X to the window's left edge
-                    button.setY(y + 20 + ((numSettings + n) * 15));  // Adjust Y position dynamically with offset
-                    button.setWidth(width); // Button width takes up the full window width
-                }
+        for (int index = 0; index < buttons.size(); index++) {
+            ModuleButton button = buttons.get(index);
+            int numSettings = button.thisModule.settings.size();
+
+            button.setX(x);  // Align X to the window's left edge
+            button.setY(currentY);  // Set current Y position for the button
+            button.setWidth(width);  // Button width takes up the full window width
+
+            // Move the Y position down by 15 units for each button
+            currentY += 15;
+
+            // If settings are enabled, add extra space for settings before moving to the next button
+            if (button.settingsOn) {
+                //currentY += numSettings * 15;  // Add space for each setting
             } else {
-                ButtonWidget button = buttons.get(index);
-                button.setX(x);  // Align X to the window's left edge
-                button.setY(y + 20 + (index * 15));  // Adjust Y position dynamically with offset
-                button.setWidth(width); // Button width takes up the full window width
+                currentY += numSettings * 15;
             }
         }
 
