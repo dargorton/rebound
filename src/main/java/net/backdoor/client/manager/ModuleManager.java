@@ -21,7 +21,6 @@ public class ModuleManager {
         list.add(new ElytraFly());
         list.add(new Speed());
         list.add(new AutoTotem());
-        list.add(new AutoTotem());
         list.add(new CreativeFly());
         list.add(new NoFall());
         list.add(new Velocity());
