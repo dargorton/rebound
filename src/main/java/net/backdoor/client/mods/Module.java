@@ -38,5 +38,14 @@ public abstract class Module {
 
     public Category getCategory() {return category;}
 
+    public Setting getSettingFromName(String name) {
+        for (Setting setting :settings) {
+            if (setting.name.equals(name)) {
+                return setting;
+            }
+        }
+        return null;
+    }
+
     public abstract void toggle();
 }

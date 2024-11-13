@@ -14,6 +14,8 @@ public class Setting<T> {
     public final Consumer<Setting<T>> onModuleActivated;
     private final Consumer<T> onChanged;
 
+    public double lengthValue;
+
     public boolean lastWasVisible;
 
     public Setting(String name, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
@@ -24,11 +26,15 @@ public class Setting<T> {
         this.onModuleActivated = onModuleActivated;
         this.visible = visible;
 
+        this.lengthValue = 1.0;
+        this.value = defaultValue;
+
     }
 
     public T getValue() {
         return value;
     }
+    public void setValue(T value) {this.value = value;}
 
     public String getName() {
         return name;

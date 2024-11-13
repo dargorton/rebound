@@ -41,7 +41,7 @@ public class AutoCrystal extends Module {
     private boolean canPlace = true;
     private boolean canBreak = true;
 
-    public static Setting<Integer> range = new Setting<>("range", "range", 5, null, null, null);
+    public static Setting<Integer> range = new Setting<>("Range", "range", 5, null, null, null);
 
     public AutoCrystal() {
         super("AutoCrystal", Category.PVP, new ArrayList<>());
@@ -151,7 +151,11 @@ public class AutoCrystal extends Module {
             }
 
             if ((block == Blocks.OBSIDIAN || block == Blocks.BEDROCK) && blockAbove == Blocks.AIR) {
-                closestPos = pos;
+
+                double range = player.getBlockPos().up().getSquaredDistance(pos);
+                if (Math.sqrt(range) < (double) this.range.getValue()) {
+                    closestPos = pos;
+                }
             }
         }
 
@@ -175,9 +179,11 @@ public class AutoCrystal extends Module {
 
                             double distance = targetPos.getSquaredDistance(blockPos);
                             double range = player.getBlockPos().up().getSquaredDistance(blockPos);
-                            if (distance < closestDistance && range < 5.0) {
-                                closestDistance = distance;
-                                closestPos = blockPos.toImmutable();
+                            if (distance < closestDistance) {
+                                if (Math.sqrt(range) < (double) this.range.getValue()) {
+                                    closestDistance = distance;
+                                    closestPos = blockPos.toImmutable();
+                                }
                             }
                         }
                     }
@@ -285,13 +291,11 @@ public class AutoCrystal extends Module {
     public void onCrystalAdded(EndCrystalEntity crystal) {
         // This method is called when a new crystal is placed.
         placedCrystals.add(crystal);
-        System.out.println("Crystal added at: " + crystal.getBlockPos());
     }
 
     public void onCrystalRemoved(EndCrystalEntity crystal) {
         // This method is called when a crystal is removed (e.g., destroyed).
         placedCrystals.remove(crystal);
-        System.out.println("Crystal removed from: " + crystal.getBlockPos());
     }
 
     @Override

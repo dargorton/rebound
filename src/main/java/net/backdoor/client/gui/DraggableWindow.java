@@ -131,14 +131,8 @@ public class DraggableWindow extends Screen {
         if (isDragging) {
             x = (int) mouseX - dragX;
             y = (int) mouseY - dragY;
-            for (int i = 0; i < buttons.size(); i++) {
-                updateAllButtonPos();
-                /*if (buttons.get(i).settingsOn) {
-                    updateAllButtonPos(0, this.buttons.indexOf(buttons.get(i)) + 1); // Update button positions based on settings
-                } else {
-                    updateAllButtonPos(0, 0);
-                }*/
-            }
+            updateAllButtonPos();
+            updateWindowHeight();
             return true;
         }
         return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
@@ -172,9 +166,9 @@ public class DraggableWindow extends Screen {
 
             // If settings are enabled, add extra space for settings before moving to the next button
             if (button.settingsOn) {
-                //currentY += numSettings * 15;  // Add space for each setting
+                currentY += numSettings * 15;  // Add space for each setting
             } else {
-                currentY += numSettings * 15;
+                //currentY += numSettings * 15;
             }
         }
 
@@ -182,7 +176,7 @@ public class DraggableWindow extends Screen {
             SliderButton button = sliders.get(i);
             button.setX(x);  // Align X to the window's left edge
                                 // relative position of button
-            button.setY((button.getY() - y));  // Adjust Y position dynamically with offset
+            button.setY(y + button.relativePos);  // Adjust Y position dynamically with offset
             button.setWidth(width); // Button width takes up the full window width
         }
     }

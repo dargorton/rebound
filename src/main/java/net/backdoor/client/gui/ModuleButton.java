@@ -80,21 +80,23 @@ public class ModuleButton extends ButtonWidget {
 
         DraggableWindow categoryWindow = Backdoor.manager.getWindowFromCategory(thisModule.category);
 
-        if (!settingsOn) {
+        if (!settingsOn) { // are the settings off
+            settingsOn = true;
             for (int i = 0; i < settings.size(); i++) {
+                Setting setting = settings.get(i);
                 //categoryWindow.updateAllButtonPos(15, categoryWindow.buttons.indexOf(this) + 1);
                 categoryWindow.updateAllButtonPos();
-                SliderButton button = new SliderButton(this.getX(), this.getY() + (i*15) + 15, this.width, this.height, 1, 10);
+                SliderButton button = new SliderButton(this.thisModule,setting.name,this.getX(), this.getY() + (i*15) + 15, this.width, this.height,i*15 + 20 + 15,setting.lengthValue,1, 10);
                 categoryWindow.addSlider(button);
                 categoryWindow.updateWindowHeight();
                 //maybe this works
             }
         } else {
+            settingsOn = false;
             categoryWindow.clearSliders();
             categoryWindow.updateAllButtonPos();
             categoryWindow.updateWindowHeight();
         }
-        settingsOn = !settingsOn;
     }
 
     @Override
