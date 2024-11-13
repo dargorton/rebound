@@ -27,7 +27,7 @@ public class InGameHudMixin {
         MinecraftClient client = MinecraftClient.getInstance();
 
         if (client.player != null) {
-            String text = "Backdoor 3.0";
+            String text = Backdoor.VERSION;
             boolean shadow = true;
             float hueStep = 0.05F;
             float baseHue = (float) (System.currentTimeMillis() % 10000L) / 10000.0F;

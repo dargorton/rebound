@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f7caef8e-ceec-484f-bb2e-1d9edbd8748b" name="Changes" comment="Sliders fully implimented, will be working on optimizing it later. this works for now">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
+    <list default="true" id="f7caef8e-ceec-484f-bb2e-1d9edbd8748b" name="Changes" comment="change version 3.1-nightly-1">
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mixins/InGameHudMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mixins/InGameHudMixin.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +187,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731464885778</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="change version 3.1-nightly-1">
+      <option name="closed" value="true" />
+      <created>1731465007059</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1731465007059</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -208,6 +215,7 @@
     <MESSAGE value="improving clickgui" />
     <MESSAGE value="little more" />
     <MESSAGE value="Sliders fully implimented, will be working on optimizing it later. this works for now" />
-    <option name="LAST_COMMIT_MESSAGE" value="Sliders fully implimented, will be working on optimizing it later. this works for now" />
+    <MESSAGE value="change version 3.1-nightly-1" />
+    <option name="LAST_COMMIT_MESSAGE" value="change version 3.1-nightly-1" />
   </component>
 </project>
