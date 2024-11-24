@@ -5,7 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7caef8e-ceec-484f-bb2e-1d9edbd8748b" name="Changes" comment="change version 3.1-nightly-1">
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mixins/InGameHudMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mixins/InGameHudMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/SettingButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/backdoor-client.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/backdoor-client.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/net.backdoor.backdoor-client.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/net.backdoor.backdoor-client.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/net.backdoor.backdoor-client.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/net.backdoor.backdoor-client.test.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/Minecraft_Server.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/Minecraft_Server.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/CustomSlider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/DraggableWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/DraggableWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/ModuleButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/ModuleButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/SliderButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/gui/SliderButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mods/pvp/AutoCrystal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/mods/pvp/AutoCrystal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/backdoor/client/setting/Setting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/backdoor/client/setting/Setting.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +51,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Kotlin Class" />
         <option value="Class" />
       </list>
     </option>
@@ -195,7 +207,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731465007059</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="change version 3.1-nightly-1">
+      <option name="closed" value="true" />
+      <created>1731465059549</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1731465059549</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

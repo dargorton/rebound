@@ -86,14 +86,21 @@ public class ModuleButton extends ButtonWidget {
                 Setting setting = settings.get(i);
                 //categoryWindow.updateAllButtonPos(15, categoryWindow.buttons.indexOf(this) + 1);
                 categoryWindow.updateAllButtonPos();
-                SliderButton button = new SliderButton(this.thisModule,setting.name,this.getX(), this.getY() + (i*15) + 15, this.width, this.height,i*15 + 20 + 15,setting.lengthValue,1, 10);
-                categoryWindow.addSlider(button);
-                categoryWindow.updateWindowHeight();
+                if (setting.getValue().getClass().equals(Integer.class)) {
+                    SliderButton button = new SliderButton(setting, this.getX(), this.getY() + (i * 15) + 15, this.width, this.height, i * 15 + 20 + 15, setting.lengthValue, 1, 10);
+                    categoryWindow.addSlider(button);
+                    categoryWindow.updateWindowHeight();
+                } else if (setting.getValue().getClass().equals(Boolean.class)) {
+                    SettingButton button = new SettingButton(setting, this.getX(), this.getY() + (i * 15) + 15, this.width, this.height, i * 15 + 20 + 15, null);
+                    categoryWindow.addSettingButton(button);
+                    categoryWindow.updateWindowHeight();
+
+                }
                 //maybe this works
             }
         } else {
             settingsOn = false;
-            categoryWindow.clearSliders();
+            categoryWindow.clearSettings();
             categoryWindow.updateAllButtonPos();
             categoryWindow.updateWindowHeight();
         }

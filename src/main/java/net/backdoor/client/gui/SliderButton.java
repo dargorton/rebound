@@ -1,6 +1,7 @@
 package net.backdoor.client.gui;
 
 import net.backdoor.client.Backdoor;
+import net.backdoor.client.setting.Setting;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.SliderWidget;
@@ -12,9 +13,8 @@ import java.awt.*;
 
 public class SliderButton extends SliderWidget {
 
-    public final Module module;
+    public final Setting setting;
 
-    public final String name;
     private final int min;
     private final int max;
 
@@ -22,16 +22,15 @@ public class SliderButton extends SliderWidget {
 
     private int currentValue;
 
-    public SliderButton(Module module, String name, int x, int y, int width, int height, int relativePos, double lengthValue, int min, int max) {
+    public SliderButton(Setting setting, int x, int y, int width, int height, int relativePos, double lengthValue, int min, int max) {
         super(x, y, width, height, Text.literal("test"), 0.0);
-        this.module = module;
-        this.name = name;
+        this.setting = setting;
         this.relativePos = relativePos;
         this.min = min;
         this.max = max;
         this.value = lengthValue;
-        if (module.getSettingFromName(this.name) != null) {
-            this.currentValue = (int) module.getSettingFromName(this.name).getValue();
+        if (setting != null) {
+            this.currentValue = (int) setting.getValue();
         }
         this.updateMessage();
     }
@@ -61,20 +60,21 @@ public class SliderButton extends SliderWidget {
         context.drawBorder(getX(), getY(), this.width + 1, this.height + 1, borderColor);
     }
 
+
     @Override
     protected void updateMessage() {
         // Update displayed value based on slider position
         int value = (int) (min + this.value * (max - min));
-        setMessage(Text.literal(name + ": " + value));
+        setMessage(Text.literal(setting.name + ": " + value));
     }
 
     @Override
     protected void applyValue() {
         // Update the currentValue in the parent screen
         currentValue = (int) (min + this.value * (max - min));
-        module.getSettingFromName(this.name).lengthValue = value;
-        if (module.getSettingFromName(this.name) != null) {
-            module.getSettingFromName(this.name).setValue(currentValue);
+        setting.lengthValue = value;
+        if (setting != null) {
+            setting.setValue(currentValue);
         }
     }
 

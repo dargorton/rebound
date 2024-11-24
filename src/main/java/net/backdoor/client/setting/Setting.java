@@ -40,5 +40,17 @@ public class Setting<T> {
         return name;
     }
 
+    public boolean isValueTrue() {
+        if (this.value.getClass().equals(Boolean.class)) {
+            if ((boolean) this.value) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+
+
 
 }

@@ -10,7 +10,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.MathHelper;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,8 @@ public class DraggableWindow extends Screen {
     public final List<ModuleButton> buttons = new ArrayList<>();
 
     public final List<SliderButton> sliders = new ArrayList<>();
+
+    public final List<SettingButton> settingButtons = new ArrayList<>();
 
     public final Category category;
 
@@ -103,6 +105,10 @@ public class DraggableWindow extends Screen {
         for (SliderButton slider : sliders) {
             slider.render(context, mouseX, mouseY, delta);
         }
+
+        for (SettingButton button : settingButtons) {
+            button.render(context, mouseX, mouseY, delta);
+        }
     }
 
     @Override
@@ -142,7 +148,7 @@ public class DraggableWindow extends Screen {
         // Calculate the total height of the window based on the number of buttons
         int buttonHeight = 15; // button height but you probably want to actually check the font height
         int verticalSpacing = 0; // no extra vertical spacing between buttons
-        int totalButtonHeight = (buttons.size() + sliders.size()) * buttonHeight; // total height without extra spacing with settings and stuff
+        int totalButtonHeight = (buttons.size() + sliders.size() + settingButtons.size()) * buttonHeight; // total height without extra spacing with settings and stuff
 
         int headerHeight = 20; // height of the header
 
@@ -179,6 +185,14 @@ public class DraggableWindow extends Screen {
             button.setY(y + button.relativePos);  // Adjust Y position dynamically with offset
             button.setWidth(width); // Button width takes up the full window width
         }
+
+        for (int i = 0; i < settingButtons.size(); i++) {
+            SettingButton button = settingButtons.get(i);
+            button.setX(x);  // Align X to the window's left edge
+            // relative position of button
+            button.setY(y + button.relativePos);  // Adjust Y position dynamically with offset
+            button.setWidth(width); // Button width takes up the full window width
+        }
     }
 
 
@@ -187,11 +201,20 @@ public class DraggableWindow extends Screen {
         sliders.add(slider);
     }
 
-    public void clearSliders() {
+    public void addSettingButton(SettingButton button) {
+        this.addDrawableChild(button);
+        settingButtons.add(button);
+    }
+
+    public void clearSettings() {
         for (SliderButton slider: sliders) {
             this.remove(slider);
         }
         sliders.clear();
+        for (SettingButton button: settingButtons) {
+            this.remove(button);
+        }
+        settingButtons.clear();
     }
 
     // Method to check if the mouse is within the bounds of the window
