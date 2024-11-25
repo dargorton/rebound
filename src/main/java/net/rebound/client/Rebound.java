@@ -6,6 +6,7 @@ import net.rebound.client.mods.Category;
 import net.rebound.client.mods.Module;
 import net.minecraft.client.gui.screen.Screen;
 import net.rebound.client.manager.ModuleManager;
+import net.rebound.client.mods.util.DiscordRPC;
 import org.lwjgl.glfw.GLFW;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -14,8 +15,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
+import java.io.IOException;
+
 public class Rebound implements ClientModInitializer {
-    public static final String VERSION = "3.1-nightly-1+" + MinecraftClient.getInstance().getGameVersion();
+    public static final String VERSION = "3.2+" + MinecraftClient.getInstance().getGameVersion();
     private KeyBinding keyBinding;
     public Screen currentScreen = MinecraftClient.getInstance().currentScreen;
 
@@ -31,6 +34,11 @@ public class Rebound implements ClientModInitializer {
     public void onInitializeClient() {
         this.mc = MinecraftClient.getInstance();
 
+        try {
+            DiscordRPC.startRPC();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         manager = new WindowManager();
 
         manager.addWindow(pvpWindow);
@@ -44,7 +52,7 @@ public class Rebound implements ClientModInitializer {
                 "ClickGUI",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_N, //default
-                "Backdoor Client"
+                "Rebound Client"
         );
         KeyBindingHelper.registerKeyBinding(keyBinding);
 

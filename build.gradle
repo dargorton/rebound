@@ -44,6 +44,7 @@ dependencies {
     // Use the correct loader version for 1.21.2
     modImplementation "net.fabricmc:fabric-loader:0.16.9"
     include modImplementation("com.github.0x3C50:Renderer:bc2a9c5350")
+    include modImplementation("com.github.JnCrMx:discord-game-sdk4j:5cdac341e3")
     // Update Fabric API to a version compatible with Minecraft 1.21.2
     modImplementation "net.fabricmc.fabric-api:fabric-api:0.102.0+1.21"
 
