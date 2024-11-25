@@ -1,17 +1,16 @@
 
 
 ## rebound 
-<img style="width:600px; height:300px;" src="https://github.com/notrogr4d/backdoor-client/blob/master/github-assets/Screenshot%202024-11-11%20124351.png">
-<br><br>
+> 1.21 Minecraft CPVP Utility Client 
 
+Rebound is a CrystalPVP client for anarchy servers with lax or strict anticheats alike. \
+What the client lacks in bypasses it makes up for in its Smart Crystal Placement and overall unique and non ping-dependant utilities. 
 
-### vitamin-b rich minecraft client (without the skidding)
+## Credits
+[notrograd](https://github.com/notrograd) and [wringly](https://github.com/10trips) - Lead Developers 
 
-### how to install
-> run `./gradlew build` \
-> use .jar output file
+[0x3C50](https://github.com/0x3C50) - Renderer Library 
 
-### usage
-> for pvp is aight \
-> for utility its pretty good
-> nothing for exploits
+[JnCrMX](https://github.com/JnCrMx) - Discord GameSDK4J Wrapper
+
+[UC Berkeley](https://berkeley.edu) - License (BSD-2 Clause)
