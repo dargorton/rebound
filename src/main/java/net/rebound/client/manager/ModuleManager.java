@@ -4,6 +4,7 @@ import net.rebound.client.mods.Category;
 import net.rebound.client.mods.Module;
 import net.rebound.client.mods.movement.*;
 import net.rebound.client.mods.pvp.AutoCrystal;
+import net.rebound.client.mods.pvp.AutoCrystalRework;
 import net.rebound.client.mods.pvp.AutoTotem;
 import net.rebound.client.mods.render.ESP;
 import net.rebound.client.mods.util.Blink;
@@ -20,6 +21,7 @@ public class ModuleManager {
     public static void init() {
         list.add(new AutoCrystal());
         list.add(new AutoSprint());
+        list.add(new AutoCrystalRework());
         list.add(new ElytraFly());
         list.add(new Speed());
         list.add(new AutoTotem());

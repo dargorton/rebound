@@ -33,7 +33,7 @@ public class Speed extends Module {
 
         PlayerEntity player = client.player;
 
-        if (strafe.getValue()) { // If Strafe is enabled, use Strafe mode
+        if (strafe.getValue() && enabled) {
             new Strafe().onTick(client); // Use the Strafe class for movement
         } else if (enabled) { // Otherwise, use normal speed
             speed(client, player);

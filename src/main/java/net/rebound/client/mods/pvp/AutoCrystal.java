@@ -46,12 +46,23 @@ public class AutoCrystal extends Module {
             null,
             null,
             null);
+    public static Setting<Integer> hitDelay = new Setting<>("Hit Delay",
+            "Delay before hitting crystals", 0,
+            null, null, null);
+
+    public static Setting<Integer> placeDelay = new Setting<>("Place Delay",
+            "Delay before placing crystals", 0,
+            null, null, null);
+
     public AutoCrystal() {
         super("AutoCrystal", Category.PVP, new ArrayList<>());
         this.settings.add(range);
+        this.settings.add(hitDelay);
+        this.settings.add(placeDelay);
         ClientTickEvents.END_CLIENT_TICK.register(this::onTick);
         TickDelayHandler.init();
     }
+
 
     public void onTick(MinecraftClient client) {
 
@@ -75,19 +86,19 @@ public class AutoCrystal extends Module {
             reset();
         }
     }
-
     private void handlePlaceAction() {
         if (canPlace || !isEndCrystalAtPos(placingCrystalBlockPos)) {
             canPlace = false;
 
-            // Place the crystal after a small delay
-            assert client.player != null;
-            BlockPos placePos = doPlace(client.player);
-            if (placePos != null) {
-                placingCrystalBlockPos.set(placePos).move(0, 1, 0);
-            }
-
-            canPlace = true; // Allow placement again
+            // Delay placement using TickDelayHandler
+            TickDelayHandler.runAfterTicks(() -> {
+                assert client.player != null;
+                BlockPos placePos = doPlace(client.player);
+                if (placePos != null) {
+                    placingCrystalBlockPos.set(placePos).move(0, 1, 0);
+                }
+                canPlace = true;
+            }, placeDelay.getValue() * 10); // Convert scale to ticks
         }
     }
 
@@ -95,12 +106,16 @@ public class AutoCrystal extends Module {
         if (!placedCrystals.isEmpty()) {
             for (Entity crystal : placedCrystals) {
                 if (crystal != null) {
-                    hitCrystal(crystal);
+                    canBreak = false;
+
+                    // Delay hitting using TickDelayHandler
+                    TickDelayHandler.runAfterTicks(() -> {
+                        hitCrystal(crystal);
+                        canBreak = true;
+                    }, hitDelay.getValue() * 10); // Convert scale to ticks
                 }
             }
         }
-
-        canBreak = true; // Allow breaking again
     }
 
     private void reset() {

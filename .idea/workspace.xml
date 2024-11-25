@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f7caef8e-ceec-484f-bb2e-1d9edbd8748b" name="Changes" comment="change version 3.1-nightly-1">
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/rebound/client/mods/util/DiscordRPC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/Minecraft_Server.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/Minecraft_Server.xml" afterDir="false" />
+    <list default="true" id="f7caef8e-ceec-484f-bb2e-1d9edbd8748b" name="Changes" comment="version 3.2 n shit">
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/rebound/client/mods/pvp/AutoCrystalRework.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/rebound/client/Rebound.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/rebound/client/Rebound.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/rebound/client/manager/ModuleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/rebound/client/manager/ModuleManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/rebound/client/mods/movement/Speed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/rebound/client/mods/movement/Speed.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/rebound/client/mods/pvp/AutoCrystal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/rebound/client/mods/pvp/AutoCrystal.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,24 +97,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Gradle.backdoor-client [build].executor": "Run",
-    "Gradle.backdoor-client-git [buildDependents].executor": "Run",
-    "Gradle.backdoor-client-git [dependencies].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ethan/Downloads/backdoor-client/build.gradle",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.14550781",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Gradle.backdoor-client [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.backdoor-client-git [buildDependents].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.backdoor-client-git [dependencies].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ethan/Downloads/backdoor-client/build.gradle&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.14550781&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\jfuf7\IdeaProjects\backdoor-client-git\src\main\resources" />
@@ -273,7 +273,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732506286327</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="version 3.2 n shit">
+      <option name="closed" value="true" />
+      <created>1732510776026</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1732510776026</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -295,6 +303,7 @@
     <MESSAGE value="little more" />
     <MESSAGE value="Sliders fully implimented, will be working on optimizing it later. this works for now" />
     <MESSAGE value="change version 3.1-nightly-1" />
-    <option name="LAST_COMMIT_MESSAGE" value="change version 3.1-nightly-1" />
+    <MESSAGE value="version 3.2 n shit" />
+    <option name="LAST_COMMIT_MESSAGE" value="version 3.2 n shit" />
   </component>
 </project>
