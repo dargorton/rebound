@@ -10,21 +10,42 @@ base {
     archivesName = project.archives_base_name
 }
 
+
 repositories {
+    // Add repositories to retrieve artifacts from in here.
+    // You should only use this when depending on other mods because
+    // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
+    // See https://docs.gradle.org/current/userguide/declaring_repositories.html
+    // for more information about repositories.
+    repositories {
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://maven.terraformersmc.com/releases/' }
+        maven {
+            name = 'Ladysnake Mods'
+            url = 'https://maven.ladysnake.org/releases'
+            content {
+                includeGroup 'io.github.ladysnake'
+                includeGroup 'org.ladysnake'
+                includeGroupByRegex 'dev\\.onyxstudios.*'
+            }
+        }
+    }
+
     mavenCentral()
 }
 
 dependencies {
+    modImplementation "org.ladysnake:satin:${satin_version}"
+    include "org.ladysnake:satin:${satin_version}"
     // Update Minecraft version to 1.21.2
     minecraft "com.mojang:minecraft:1.21"
     // Update mappings for 1.21.2
     mappings "net.fabricmc:yarn:1.21+build.1:v2"
     // Use the correct loader version for 1.21.2
     modImplementation "net.fabricmc:fabric-loader:0.16.9"
-
+    include modImplementation("com.github.0x3C50:Renderer:bc2a9c5350")
     // Update Fabric API to a version compatible with Minecraft 1.21.2
     modImplementation "net.fabricmc.fabric-api:fabric-api:0.102.0+1.21"
-
 
 }
 

@@ -3,6 +3,9 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
       <module name="backdoor-client" target="21" />
+      <module name="backdoor-client-git" target="21" />
+      <module name="backdoor-client-git.main" target="21" />
+      <module name="backdoor-client-git.test" target="21" />
       <module name="net.backdoor.backdoor-client.main" target="21" />
       <module name="net.backdoor.backdoor-client.test" target="21" />
     </bytecodeTargetLevel>

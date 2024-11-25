@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
-  "id": "backdoor",
-  "version": "v3.0-nightly-5",
-  "name": "Backdoor",
-  "description": "Backdoor Utility Client",
+  "id": "rebound",
+  "version": "v3.2",
+  "name": "Rebound",
+  "description": "Rebound Utility Client",
   "authors": [],
   "contact": {},
   "license": "MIT",
   "environment": "client",
   "entrypoints": {
     "client": [
-      "net.backdoor.client.Backdoor"
+      "net.rebound.client.Rebound"
     ]
   },
   "mixins": [
-    "backdoor.mixins.json"
+    "rebound.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
