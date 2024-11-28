@@ -1,9 +1,10 @@
 
 
 ## rebound 
-> 1.21 Minecraft CPVP Utility Client 
+> [!WARNING]
+> Discontinued.
 
-Rebound is a CrystalPVP client for anarchy servers with lax or strict anticheats alike. \
+Rebound is a very plain, boring utility client for anarchy servers. \
 What the client lacks in bypasses it makes up for in its Smart Crystal Placement and overall unique and non ping-dependant utilities. 
 
 ## Credits
